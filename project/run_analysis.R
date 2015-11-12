@@ -19,6 +19,7 @@
 # Please upload your data set as a txt file created with write.table() using row.name=FALSE (do not cut and paste a dataset directly into the text box, as this may cause errors saving your submission).
 
 library(dplyr)
+library(data.table)
 
 setwd("~/R/datastuffz/project/Dataset/")
 
@@ -72,4 +73,19 @@ dat.mean.sd <- cbind(dat.basic, dat.mean, dat.sd)
 ### From the data set in step 4, creates a second, independent tidy data set... 
 ### with the average of each variable for each activity and each subject.
 
-### TODOTODOTODO
+dat.mean.sd <- as.data.frame(dat.mean.sd)
+
+#fix variable names
+namesTOfix <- colnames(dat.mean.sd)
+names.fixed <- gsub("-","_",namesTOfix, fixed=TRUE)
+names.fixed <- gsub("()","",names.fixed, fixed=TRUE)
+colnames(dat.mean.sd) <- names.fixed
+
+#group dataframe
+dat.grouped <- group_by(dat.mean.sd, subject, activity)
+
+#this works for few vars - useful for checking the final result
+#meanz_test <- summarise(dat_grouped, mean(tBodyAcc_mean_X))
+
+#this works for ALL vars
+mean.summary.final <- summarise_each(dat_grouped, funs(mean))

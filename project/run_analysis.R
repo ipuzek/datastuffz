@@ -1,22 +1,3 @@
-### COURSE PROJECT ###
-
-# You will be required to submit: 
-  # 1) a tidy data set as described below, 
-  # 2) a link to a Github repository with your script for performing the analysis, and 
-  # 3) a code book that describes the variables, the data, and any transformations or work that you performed to clean up the data called CodeBook.md. 
-  # 4) README.md in the repo with your scripts. This repo explains how all of the scripts work and how they are connected.  
-
-
-#Merges the training and the test sets to create one data set.
-#Extracts only the measurements on the mean and standard deviation for each measurement. 
-#Uses descriptive activity names to name the activities in the data set
-#Appropriately labels the data set with descriptive variable names. 
-
-### From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-
-
-# Please upload the tidy data set created in step 5 of the instructions. 
-# Please upload your data set as a txt file created with write.table() using row.name=FALSE (do not cut and paste a dataset directly into the text box, as this may cause errors saving your submission).
 
 library(dplyr)
 library(data.table)
@@ -68,12 +49,10 @@ dat.mean <- select(dat, contains("mean()"))
 dat.sd <- select(dat, contains("std()"))
 dat.basic <- select(dat, activity, subject)
 
-dat.mean.sd <- cbind(dat.basic, dat.mean, dat.sd)
+dat.mean.sd <- as.data.frame(cbind(dat.basic, dat.mean, dat.sd))
 
 ### From the data set in step 4, creates a second, independent tidy data set... 
 ### with the average of each variable for each activity and each subject.
-
-dat.mean.sd <- as.data.frame(dat.mean.sd)
 
 #fix variable names
 namesTOfix <- colnames(dat.mean.sd)
@@ -88,4 +67,7 @@ dat.grouped <- group_by(dat.mean.sd, subject, activity)
 #meanz_test <- summarise(dat_grouped, mean(tBodyAcc_mean_X))
 
 #this works for ALL vars
-mean.summary.final <- summarise_each(dat_grouped, funs(mean))
+mean.summary.final <- summarise_each(dat.grouped, funs(mean))
+
+#write final dataframe
+write.table(mean.summary.final, file = "mean_summary_final.txt", row.names=FALSE)

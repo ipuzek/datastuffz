@@ -1,11 +1,10 @@
-# Getting and Cleaning Data - COURSE ASSIGNMENT #  
+# Getting and Cleaning Data - COURSE ASSIGNMENT #
 
 Everything related to the course assignment is in the folder named Project. The script which reads in and transforms the data is named 'run_analysis.R', and there are no other scripts to run.
 
 Apart from the base package, the script needs dplyr and data.table packages.
 
 ## Script mechanics are documented in the script itself, there are plenty of comments. Here is the overview ##
-
 
 1. reading in (importing) all the dataframe components (data, labels, etc)
 2. labelling the data set with descriptive variable names
